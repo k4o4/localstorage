@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Local Storage</title>
+	<style type="text/css">
+		body {
+			background-color: #070707;
+			color: #0f0;
+			font-family: monospace;
+			padding-bottom: 130px;
+			padding-left: 30px;
+		}
+		input {
+			background-color: #111;
+			border: 1px solid #0f0;
+			bottom: 50px;
+			color: #0f0;
+			font-size: 30px;
+			height: 50px;
+			padding: 10px;
+			position: fixed;
+			width: 90%;
+		}
+		input:active {
+		}
+		#bottom {
+			margin-top: 100%;
+		}
+		.comment {
+			color: #fbffc6;
+		}
+		.ts {
+			color: #8cec8c;
+		}
+	</style>
+
+</head>
+<body>
+<h1>Local Storage</h1>
+<div id="log">
+</div>
+<input type="text" name="" id="input">
+
+<script type="text/javascript">
+	var log = function(text, comment) {
+		var a = document.createElement('p');
+		var t = new Date();
+		a.innerHTML = "<span class='ts'>" + t.getHours() + ":" + t.getMinutes() + ":" + t.getSeconds() + "</span> ";
+		if(comment) {
+			a.innerHTML += "<span class='comment'>["+comment+"] </span>";
+		}
+		a.innerHTML += text;
+		document.getElementById('log').appendChild(a);
+		window.scrollTo(0, document.documentElement.scrollHeight);
+	}
+</script>
+
+<script type="text/javascript">
+	var field = document.getElementById('input');
+	/***** WRIRE *****/
+	field.addEventListener("input", function(){
+		localStorage.setItem(field.id, field.value);
+		log(localStorage.getItem(field.id), "ls set");
+	});
+	/***** READ *****/
+	window.addEventListener('storage', function() {
+		log("storage updated");
+		if(field.value != localStorage.getItem(field.id)) {
+			field.value = localStorage.getItem(field.id);
+			log(field.value, "ls get");
+		}
+	});
+	window.addEventListener('load', function(){
+		if(localStorage.getItem(field.id)) {
+			field.value = localStorage.getItem(field.id);
+		}
+		log("Page loaded, set value from LS: " + field.value);
+	});
+
+</script>
+
+</body>
+</html>	
